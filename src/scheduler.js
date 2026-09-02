@@ -4,7 +4,7 @@ const { fetchBalance } = require('./providers');
 const { sendMessage } = require('./telegram');
 
 function formatAmount(n) {
-  return Number(n).toLocaleString('ru-RU', { maximumFractionDigits: 8 });
+  return Number(n).toLocaleString('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
 // Проверяет один кошелёк. Если это первая проверка (last_balance = null) —

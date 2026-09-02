@@ -104,9 +104,13 @@ addForm.addEventListener('submit', async (e) => {
   await loadWallets();
 });
 
+function formatAmount(n) {
+  return Number(n).toLocaleString('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
 function formatBalance(w) {
   if (w.last_balance === null) return w.last_error ? '—' : 'проверяется…';
-  return Number(w.last_balance).toLocaleString('ru-RU', { maximumFractionDigits: 8 }) + ' ' + w.currency;
+  return formatAmount(w.last_balance) + ' ' + w.currency;
 }
 
 function formatChecked(w) {
@@ -136,7 +140,7 @@ async function loadWallets() {
           <span class="wallet-label">Итого USDT</span>
         </div>
       </div>
-      <div class="wallet-balance">${Number(total).toLocaleString('ru-RU', { maximumFractionDigits: 8 })} USDT</div>
+      <div class="wallet-balance">${formatAmount(total)} USDT</div>
     `;
   } else {
     usdtTotal.hidden = true;
