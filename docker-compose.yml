@@ -1,0 +1,9 @@
+services:
+  balance-checker:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "8006:${PORT:-3000}"
+    volumes:
+      - ./data:/app/data

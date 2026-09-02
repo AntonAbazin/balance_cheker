@@ -1,0 +1,12 @@
+node_modules/
+data/*.db*
+
+.env
+.env.local
+.env.*.local
+
+*.log
+npm-debug.log*
+
+.DS_Store
+.vscode/

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Balance Checker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-icon">💰</div>
+        <div>
+          <div class="brand-title">Balance Checker</div>
+          <div class="brand-subtitle">Мониторинг крипто-кошельков</div>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <section>
+        <div class="section-header">
+          <h2>Мои кошельки</h2>
+          <button type="button" id="open-add-modal" class="primary">+ Добавить кошелёк</button>
+        </div>
+        <div id="usdt-total" class="wallet-row total-row" hidden></div>
+        <div id="wallets-list" class="wallets-list"></div>
+        <div id="empty-hint" class="empty-state" hidden>
+          <div class="empty-icon">💼</div>
+          <p>Кошельков пока нет — добавьте первый.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="add-modal" class="modal-overlay" hidden>
+    <div class="modal" role="dialog" aria-modal="true">
+      <div class="modal-header">
+        <h3>Добавить кошелёк</h3>
+        <button type="button" id="close-add-modal" class="modal-close" aria-label="Закрыть">✕</button>
+      </div>
+      <form id="add-form">
+        <label>
+          Метка (необязательно)
+          <input type="text" name="label" placeholder="Например: холодный кошелёк">
+        </label>
+
+        <label>
+          Блокчейн
+          <select name="blockchain" id="blockchain-select" required>
+            <option value="ethereum">Ethereum</option>
+            <option value="bsc">BNB Smart Chain (BSC)</option>
+            <option value="tron">TRON</option>
+          </select>
+        </label>
+
+        <label>
+          Валюта / токен
+          <select name="currency" id="currency-select" required></select>
+        </label>
+
+        <div id="custom-token-fields" hidden>
+          <label>
+            Адрес контракта токена
+            <input type="text" name="tokenContract" placeholder="0x... или T...">
+          </label>
+          <label>
+            Decimals
+            <input type="number" name="decimals" min="0" max="36" placeholder="18 для EVM, 6 для TRC20/USDT">
+          </label>
+        </div>
+
+        <label>
+          Адрес кошелька
+          <input type="text" name="address" required placeholder="0x... или T...">
+        </label>
+
+        <div class="modal-actions">
+          <span id="add-error" class="error"></span>
+          <button type="submit" class="primary">Добавить</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
