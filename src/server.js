@@ -3,7 +3,7 @@ const express = require('express');
 const config = require('./config');
 const db = require('./db');
 const { CHAINS, isValidBlockchain, resolvePreset } = require('./providers/tokens');
-const { checkWallet, startScheduler } = require('./scheduler');
+const { checkWallet, checkAllWallets, startScheduler } = require('./scheduler');
 
 const app = express();
 app.use(express.json());
@@ -61,6 +61,11 @@ app.post('/api/wallets', async (req, res) => {
   // Первая проверка — база для дальнейшего сравнения, без уведомления в телеграм.
   const updated = await checkWallet(wallet);
   res.status(201).json(updated);
+});
+
+app.post('/api/wallets/check-all', async (req, res) => {
+  await checkAllWallets();
+  res.json(db.listWallets());
 });
 
 app.post('/api/wallets/:id/check', async (req, res) => {

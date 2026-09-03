@@ -11,6 +11,7 @@ const usdtTotal = document.getElementById('usdt-total');
 const addModal = document.getElementById('add-modal');
 const openAddModalBtn = document.getElementById('open-add-modal');
 const closeAddModalBtn = document.getElementById('close-add-modal');
+const checkAllBtn = document.getElementById('check-all-btn');
 
 const CHAIN_BADGE = { ethereum: 'ETH', bsc: 'BSC', tron: 'TRX' };
 
@@ -122,9 +123,21 @@ function shortAddress(addr) {
   return addr.length > 16 ? addr.slice(0, 8) + '…' + addr.slice(-6) : addr;
 }
 
+checkAllBtn.addEventListener('click', async () => {
+  checkAllBtn.disabled = true;
+  try {
+    await fetch('/api/wallets/check-all', { method: 'POST' });
+    await loadWallets();
+  } finally {
+    checkAllBtn.disabled = false;
+  }
+});
+
 async function loadWallets() {
   const res = await fetch('/api/wallets');
   const wallets = await res.json();
+
+  wallets.sort((a, b) => (b.last_balance ?? -Infinity) - (a.last_balance ?? -Infinity));
 
   walletsList.innerHTML = '';
   emptyHint.hidden = wallets.length > 0;
@@ -169,7 +182,8 @@ async function loadWallets() {
 
     const checkBtn = document.createElement('button');
     checkBtn.className = 'secondary';
-    checkBtn.textContent = 'Проверить';
+    checkBtn.textContent = '🔄';
+    checkBtn.title = 'Проверить';
     checkBtn.onclick = async () => {
       checkBtn.disabled = true;
       await fetch(`/api/wallets/${w.id}/check`, { method: 'POST' });
@@ -179,7 +193,8 @@ async function loadWallets() {
 
     const delBtn = document.createElement('button');
     delBtn.className = 'danger';
-    delBtn.textContent = 'Удалить';
+    delBtn.textContent = '🗑️';
+    delBtn.title = 'Удалить';
     delBtn.onclick = async () => {
       if (!confirm(`Удалить кошелёк «${w.label}»?`)) return;
       await fetch(`/api/wallets/${w.id}`, { method: 'DELETE' });
