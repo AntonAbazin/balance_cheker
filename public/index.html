@@ -8,80 +8,61 @@
 </head>
 <body>
   <div class="page">
-    <header class="topbar">
-      <div class="brand">
-        <div class="brand-icon">💰</div>
-        <div>
-          <div class="brand-title">Balance Checker</div>
-          <div class="brand-subtitle">Мониторинг крипто-кошельков</div>
+    <div class="container">
+      <header class="page-header">
+        <h1>Balance Checker</h1>
+        <div class="header-actions">
+          <button type="button" id="check-all-btn" class="btn btn-secondary">
+            <svg class="icon-refresh" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4.5A7 7 0 1 1 3 10" stroke-linecap="round"/><path d="M4 1v4h4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            
+          </button>
+          <button type="button" id="open-add-modal" class="btn btn-primary">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M10 4v12M4 10h12" stroke-linecap="round"/></svg>
+            Добавить
+          </button>
         </div>
-      </div>
-    </header>
+      </header>
 
-    <main class="container">
-      <section>
-        <div class="section-header">
-          <h2>Мои кошельки</h2>
-          <div class="header-actions">
-            <button type="button" id="check-all-btn" class="secondary">🔄 Проверить все балансы</button>
-            <button type="button" id="open-add-modal" class="primary">+ Добавить кошелёк</button>
-          </div>
-        </div>
-        <div id="usdt-total" class="wallet-row total-row" hidden></div>
-        <div id="wallets-list" class="wallets-list"></div>
-        <div id="empty-hint" class="empty-state" hidden>
-          <div class="empty-icon">💼</div>
-          <p>Кошельков пока нет — добавьте первый.</p>
-        </div>
-      </section>
-    </main>
+      <div id="usdt-total" class="total-card" hidden></div>
+
+      <div id="wallets-list" class="wallets-list"></div>
+
+      <div id="empty-hint" class="empty-state" hidden>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="7" width="20" height="14" rx="3"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M12 12v4M10 14h4" stroke-linecap="round"/></svg>
+        <span>Нет добавленных кошельков</span>
+      </div>
+    </div>
   </div>
 
   <div id="add-modal" class="modal-overlay" hidden>
     <div class="modal" role="dialog" aria-modal="true">
       <div class="modal-header">
-        <h3>Добавить кошелёк</h3>
-        <button type="button" id="close-add-modal" class="modal-close" aria-label="Закрыть">✕</button>
+        <h2>Добавить кошелёк</h2>
+        <button type="button" id="close-add-modal" class="modal-close" aria-label="Закрыть">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4l12 12M16 4L4 16" stroke-linecap="round"/></svg>
+        </button>
       </div>
       <form id="add-form">
         <label>
-          Метка (необязательно)
+          Метка <span class="label-hint">(необязательно)</span>
           <input type="text" name="label" placeholder="Например: холодный кошелёк">
         </label>
 
         <label>
           Блокчейн
-          <select name="blockchain" id="blockchain-select" required>
-            <option value="ethereum">Ethereum</option>
-            <option value="bsc">BNB Smart Chain (BSC)</option>
-            <option value="tron">TRON</option>
-          </select>
+          <select name="blockchain" id="blockchain-select" required></select>
         </label>
-
-        <label>
-          Валюта / токен
-          <select name="currency" id="currency-select" required></select>
-        </label>
-
-        <div id="custom-token-fields" hidden>
-          <label>
-            Адрес контракта токена
-            <input type="text" name="tokenContract" placeholder="0x... или T...">
-          </label>
-          <label>
-            Decimals
-            <input type="number" name="decimals" min="0" max="36" placeholder="18 для EVM, 6 для TRC20/USDT">
-          </label>
-        </div>
 
         <label>
           Адрес кошелька
-          <input type="text" name="address" required placeholder="0x... или T...">
+          <input type="text" name="address" class="mono" required placeholder="0x... или T...">
         </label>
 
+        <div id="add-error" class="error"></div>
+
         <div class="modal-actions">
-          <span id="add-error" class="error"></span>
-          <button type="submit" class="primary">Добавить</button>
+          <button type="button" id="cancel-add" class="btn btn-ghost">Отмена</button>
+          <button type="submit" class="btn btn-primary">Добавить</button>
         </div>
       </form>
     </div>

@@ -34,19 +34,4 @@ function isValidBlockchain(blockchain) {
   return Object.prototype.hasOwnProperty.call(CHAINS, blockchain);
 }
 
-// Возвращает { contract, decimals, symbol } по blockchain+currency,
-// либо null если пресета нет (тогда используются переданные пользователем contract/decimals).
-function resolvePreset(blockchain, currency) {
-  const chain = CHAINS[blockchain];
-  if (!chain) return null;
-  if (currency === chain.native.symbol) {
-    return { contract: null, decimals: chain.native.decimals, symbol: chain.native.symbol };
-  }
-  const token = chain.tokens[currency];
-  if (token) {
-    return { contract: token.contract, decimals: token.decimals, symbol: currency };
-  }
-  return null;
-}
-
-module.exports = { CHAINS, isValidBlockchain, resolvePreset };
+module.exports = { CHAINS, isValidBlockchain };
